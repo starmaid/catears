@@ -1,37 +1,3 @@
-
-//
-// This is a simple program for testing the STMicroelectrics 3-axis gyroscope sold by Parallax.
-//
-// If you are new to the sensor you'll find all you need here.  Just rip out what you don't want to save RAM.
-//
-// If you are using an Arduino Uno R3 like me, connect the SCL line to pin A5.  Connect the SDA line to pin A4.
-// I don't know anything about the other boards.  I'm new to Arduino.
-//
-// The sample code at Parallax is incorrect in a couple of places.  This code follows the application notes from STM.  In
-// particular I want to note that I found it is very important to check status register 3 to make sure there is new
-// data before trying to request it, or else you will get very noisy data.
-//
-// You can try modifying NUM_GYRO_SAMPLES and GYRO_SIGMA_MULTIPLE.
-// These control the statistical averaging that is used to discard bad values.
-// The NUM_GYRO_SAMPLES can be reduced for faster calibration, but accuracy will start to suffer if you go below 50 samples.
-// Increase the GYRO_SIGMA_MULTIPLE if you have an application that doesn't need to keep track of small rotations.
-// Reduce GYRO_SIGMA_MULTIPLE if small rotations are important and you don't mind more noise in the data.
-//
-// If you are trying to create a compass from the gyro data then use the heading array I added.  I found it pretty useful.
-// If you set the sensor on your desk and only rotate it in yaw it works great.  Turn it upside down and it's a mess, naturally.
-//
-// If you are putting the sensor in a robot hoping for dead reckoning it might work, but it may be necessary to recalibrate once
-// in awhile with the robot stationary.  It depends on how long your robot will be driving around and also how bumpy the
-// surface is.
-//
-// Note that if you do not call updateGyro() often enough then you will miss data.  You can check for this by looking at
-// the status register's 7th bit.  If it's on you've missed some data.  It's possible to set up an interrupt to catch it.  If you
-// miss data then the report from the sensor isn't going to work as well for you.
-//
-// Use share and enjoy this however you like!
-//
-// Jim Bourke 2/6/2013 (RCGroups.com)
-//
 #include <Wire.h>
 #include <Servo.h>
 
@@ -124,6 +90,7 @@ void loop() {
   }
 
   if (!deactivated) {
+    // move the servos
     SR1.write(ZR1 + S1A * DR1);
     SR2.write(ZR2 + S2A * DR2);
     SL1.write(ZL1 + S1A * DL1);
